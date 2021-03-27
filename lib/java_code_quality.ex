@@ -1,17 +1,39 @@
 defmodule JavaCodeQuality do
-  defstruct loc: 0, number_of_classes: 0, number_of_methods: 0
+  defstruct id: "", file: "", loc: 0, number_of_classes: 0, number_of_methods: 0
 
-  def main(url) do
-    text =
-      url
-      |> get_text
-      |> refactor_text
+  def main do
+    keywords = [
+      "DispatchQueue.txt",
+      "FileLoader.txt",
+      "FileLog.txt",
+      "FileUploadOperation.txt",
+      "UserConfig.txt",
+      "Utilities.txt"
+    ]
 
-    %JavaCodeQuality{
-      loc: count_lines(text),
-      number_of_classes: count_classes(text),
-      number_of_methods: count_methods(text)
-    }
+    items = Enum.to_list(1..27)
+
+    Enum.each(items, fn index ->
+      Enum.each(keywords, fn keyword ->
+        url =
+          "https://raw.githubusercontent.com/danilomartinelli/java_code_quality/main/Dataset/#{
+            index
+          }/#{keyword}"
+
+        text =
+          url
+          |> get_text
+          |> refactor_text
+
+        IO.inspect(%JavaCodeQuality{
+          id: index,
+          file: keyword,
+          loc: count_lines(text),
+          number_of_classes: count_classes(text),
+          number_of_methods: count_methods(text)
+        })
+      end)
+    end)
   end
 
   defp get_text(url) do
