@@ -44,7 +44,7 @@ defmodule JavaCodeQuality do
   defp count_classes(text) do
     case text do
       "" -> 0
-      str -> length(String.split(str, ~r/[\w\d][\w\d\s\n]*class[\w\d\s\n\,]*{/)) - 1
+      str -> length(String.split(str, ~r/[\w\d][\w\d\s\n]*[\s\n]+class[\s\n]+[\w\d\s\n\,]*{/)) - 1
     end
   end
 
